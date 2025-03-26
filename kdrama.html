@@ -81,6 +81,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
+            text-decoration: none;
         }
         
         .episode-btn:hover {
@@ -192,7 +193,7 @@
                             9.0
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="queen-of-tears.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
             
@@ -210,7 +211,7 @@
                             8.8
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="squid-game.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
             
@@ -227,7 +228,7 @@
                             8.9
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="when-the-phone-rings.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
             
@@ -245,14 +246,14 @@
                             8.7
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="vincenzo.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
             
             <!-- K-Drama 5 -->
             <div class="kdrama-card">
                 <div class="kdrama-icon" style="top: 20px; left: 20px;">💫</div>
-                <img src="https://i.ibb.co/Sg7jP22/IMG-20250326-140412-776.jpg" alt="The Glory" class="kdrama-poster">
+                <img src="https://i.ibb.co/SXr2xDb9/photo-2025-03-26-01-13-10.jpg" alt="The Glory" class="kdrama-poster">
                 <div class="kdrama-info">
                     <h3 class="kdrama-title">Lovely Runner</h3>
                     <div class="kdrama-meta">
@@ -262,7 +263,7 @@
                             9.1
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="lovelyrunner.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
             
@@ -270,9 +271,9 @@
             <div class="kdrama-card">
                 <div class="kdrama-icon" style="bottom: 30px; right: 30px;">💖</div>
                 <span class="kdrama-badge">New</span>
-                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=King+The+Land" alt="King The Land" class="kdrama-poster">
+                <img src="https://i.ibb.co/KjDKSMP0/photo-2025-03-26-01-13-11-2.jpg" alt="King The Land" class="kdrama-poster">
                 <div class="kdrama-info">
-                    <h3 class="kdrama-title">King The Land</h3>
+                    <h3 class="kdrama-title">The Trunk</h3>
                     <div class="kdrama-meta">
                         <span>2023 • 16 Episodes</span>
                         <span class="rating">
@@ -280,7 +281,23 @@
                             8.5
                         </span>
                     </div>
-                    <button class="episode-btn">Watch Latest Episode</button>
+                    <a href="thetrunk.html" class="episode-btn">Watch Latest Episode</a>
+                </div>
+            </div>
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="bottom: 30px; right: 30px;">💖</div>
+                <span class="kdrama-badge">New</span>
+                <img src="https://i.ibb.co/HL104RLK/photo-2025-03-26-01-13-11.jpg" alt="King The Land" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">MR. PLANKTON</h3>
+                    <div class="kdrama-meta">
+                        <span>2023 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            8.5
+                        </span>
+                    </div>
+                    <a href="mrplankton.html" class="episode-btn">Watch Latest Episode</a>
                 </div>
             </div>
         </div>
@@ -338,16 +355,6 @@
                 }
             `;
             document.head.appendChild(cardStyle);
-            
-            // Set up episode buttons
-            document.querySelectorAll('.episode-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const kdramaTitle = this.closest('.kdrama-card').querySelector('.kdrama-title').textContent;
-                    alert(`Would play latest episode of "${kdramaTitle}" in a real implementation`);
-                    // In real implementation, redirect to player page:
-                    // window.location.href = `player.html?show=${encodeURIComponent(kdramaTitle)}`;
-                });
-            });
         });
     </script>
 </body>

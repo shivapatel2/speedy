@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Cricket Streaming - Speed World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d4d;
+            --secondary: #f9cb28;
+            --dark: #0f0f1a;
+            --darker: #0a0a14;
+            --light: #ffffff;
+            --gray: #b3b3b3;
+            --dark-bg: #1a1a2e;
+            --card-bg: #252545;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Loading Animation */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: var(--gray);
+            font-size: 1.2rem;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Player Container */
+        .player-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s forwards 0.5s;
+        }
+        
+        /* Video Player */
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            background: #000;
+        }
+        
+        #video-player {
+            width: 100%;
+            display: block;
+        }
+        
+        .player-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .video-wrapper:hover .player-controls {
+            opacity: 1;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.2);
+            margin-bottom: 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            width: 0;
+            position: relative;
+        }
+        
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        
+        .control-btn:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        .control-btn.active {
+            color: var(--primary);
+        }
+        
+        .time-display {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .fullscreen-btn {
+            margin-left: auto;
+        }
+        
+        .volume-control {
+            width: 80px;
+            height: 5px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .volume-bar {
+            height: 100%;
+            background: var(--light);
+            border-radius: 3px;
+            width: 100%;
+        }
+        
+        /* Match Info */
+        .match-info {
+            background: var(--dark-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .teams {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .team-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .vs {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .match-details {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .match-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .match-status {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .live-badge {
+            background: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .match-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Chat Section */
+        .chat-section {
+            background: var(--dark-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: var(--secondary);
+        }
+        
+        .online-count {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .chat-messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--dark-bg);
+        }
+        
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--card-bg);
+            border-radius: 8px;
+            animation: fadeInUp 0.3s ease-out;
+        }
+        
+        .message-user {
+            font-weight: bold;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        
+        .message-text {
+            color: var(--light);
+        }
+        
+        .message-time {
+            color: var(--gray);
+            font-size: 0.7rem;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 8px;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .chat-input::placeholder {
+            color: var(--gray);
+        }
+        
+        .send-btn {
+            padding: 0 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        
+        .send-btn:hover {
+            background: #e63939;
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .player-container {
+                padding: 10px;
+            }
+            
+            .match-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .teams {
+                margin-bottom: 20px;
+            }
+            
+            .match-stats {
+                justify-content: center;
+            }
+            
+            .control-group {
+                gap: 10px;
+            }
+            
+            .volume-control {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading Live Stream...</div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="player-container">
+        <!-- Video Player -->
+        <div class="video-wrapper">
+            <video id="video-player" playsinline></video>
+            <div class="player-controls">
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <button class="control-btn play-btn" title="Play/Pause">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="control-btn volume-btn" title="Mute/Unmute">
+                            <i class="fas fa-volume-up"></i>
+                        </button>
+                        <div class="volume-control">
+                            <div class="volume-bar"></div>
+                        </div>
+                        <span class="time-display">00:00 / 00:00</span>
+                    </div>
+                    <div class="control-group">
+                        <button class="control-btn fullscreen-btn" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Match Information -->
+        <div class="match-info">
+            <div class="teams">
+                <div class="team">
+                    <img src="https://via.placeholder.com/60x60.png?text=IND" alt="India" class="team-logo">
+                    <div>INDIA</div>
+                </div>
+                <div class="vs">VS</div>
+                <div class="team">
+                    <img src="https://via.placeholder.com/60x60.png?text=AUS" alt="Australia" class="team-logo">
+                    <div>AUSTRALIA</div>
+                </div>
+            </div>
+            <div class="match-details">
+                <h2 class="match-title">ICC T20 World Cup - Match 23</h2>
+                <div class="match-status">
+                    <span class="live-badge">LIVE</span>
+                    <span>India need 45 runs in 9 balls</span>
+                </div>
+                <div class="match-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Current RR</div>
+                        <div class="stat-value">8.45</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Required RR</div>
+                        <div class="stat-value">9.50</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Partnership</div>
+                        <div class="stat-value">72 (54)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Chat -->
+        <div class="chat-section">
+            <div class="section-header">
+                <h3 class="section-title">Live Chat</h3>
+                <div class="online-count">1,245 online</div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" placeholder="Type your message..." id="chat-input">
+                <button class="send-btn" id="send-btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HLS.js library for m3u8 playback -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Video Player Setup
+            const videoPlayer = document.getElementById('video-player');
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const playBtn = document.querySelector('.play-btn');
+            const volumeBtn = document.querySelector('.volume-btn');
+            const progressBar = document.querySelector('.progress-bar');
+            const progressContainer = document.querySelector('.progress-container');
+            const volumeBar = document.querySelector('.volume-bar');
+            const volumeControl = document.querySelector('.volume-control');
+            const timeDisplay = document.querySelector('.time-display');
+            const fullscreenBtn = document.querySelector('.fullscreen-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+            
+            // Check if HLS is supported
+            if (Hls.isSupported()) {
+                const hls = new Hls();
+                
+                // Replace with your actual .m3u8 stream URL
+                const streamUrl = 'https://002.fclplayer.online/live/csstream2/chunklist.m3u8?vidictid=201725155749&id=1002&pk=8b3ad8fb61061bfe4edb51cb9ccb21855127df9484799f597d947e7fa28af62a';
+                
+                hls.loadSource(streamUrl);
+                hls.attachMedia(videoPlayer);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    // Hide loading overlay when stream is ready
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                        }, 500);
+                    }, 1000);
+                    
+                    // Autoplay when ready (may be blocked by browser policies)
+                    videoPlayer.play().catch(e => {
+                        console.log('Autoplay prevented:', e);
+                        // Show play button to allow user to start playback
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    });
+                });
+                
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        switch(data.type) {
+                            case Hls.ErrorTypes.NETWORK_ERROR:
+                                console.error('Network error - trying to recover');
+                                hls.startLoad();
+                                break;
+                            case Hls.ErrorTypes.MEDIA_ERROR:
+                                console.error('Media error - trying to recover');
+                                hls.recoverMediaError();
+                                break;
+                            default:
+                                console.error('Fatal error - cannot recover');
+                                loadingOverlay.querySelector('.loading-text').textContent = 'Error loading stream. Please try again later.';
+                                break;
+                        }
+                    }
+                });
+            } 
+            // Fallback for native HLS support (Safari on iOS)
+            else if (videoPlayer.canPlayType('application/vnd.apple.mpegurl')) {
+                // Replace with your actual .m3u8 stream URL
+                videoPlayer.src = 'https://002.fclplayer.online/live/csstream2/chunklist.m3u8?vidictid=201725155749&id=1002&pk=8b3ad8fb61061bfe4edb51cb9ccb21855127df9484799f597d947e7fa28af62a';
+                
+                videoPlayer.addEventListener('loadedmetadata', function() {
+                    // Hide loading overlay when stream is ready
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        setTimeout(() => {
+                            loadingOverlay.style.display = 'none';
+                        }, 500);
+                    }, 1000);
+                    
+                    videoPlayer.play().catch(e => {
+                        console.log('Autoplay prevented:', e);
+                        playBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    });
+                });
+            } 
+            else {
+                loadingOverlay.querySelector('.loading-text').textContent = 'Your browser does not support this streaming format.';
+            }
+            
+            // Play/Pause Button
+            playBtn.addEventListener('click', function() {
+                if (videoPlayer.paused) {
+                    videoPlayer.play();
+                    this.innerHTML = '<i class="fas fa-pause"></i>';
+                } else {
+                    videoPlayer.pause();
+                    this.innerHTML = '<i class="fas fa-play"></i>';
+                }
+            });
+            
+            // Volume Button
+            volumeBtn.addEventListener('click', function() {
+                if (videoPlayer.muted) {
+                    videoPlayer.muted = false;
+                    this.innerHTML = '<i class="fas fa-volume-up"></i>';
+                } else {
+                    videoPlayer.muted = true;
+                    this.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                }
+            });
+            
+            // Progress Bar
+            videoPlayer.addEventListener('timeupdate', function() {
+                const progress = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // Update time display
+                const currentMinutes = Math.floor(videoPlayer.currentTime / 60);
+                const currentSeconds = Math.floor(videoPlayer.currentTime % 60);
+                const durationMinutes = Math.floor(videoPlayer.duration / 60);
+                const durationSeconds = Math.floor(videoPlayer.duration % 60);
+                
+                timeDisplay.textContent = 
+                    `${currentMinutes}:${currentSeconds < 10 ? '0' : ''}${currentSeconds} / ${durationMinutes}:${durationSeconds < 10 ? '0' : ''}${durationSeconds}`;
+            });
+            
+            progressContainer.addEventListener('click', function(e) {
+                const pos = (e.pageX - this.offsetLeft) / this.offsetWidth;
+                videoPlayer.currentTime = pos * videoPlayer.duration;
+            });
+            
+            // Volume Control
+            volumeControl.addEventListener('click', function(e) {
+                const pos = (e.pageX - this.offsetLeft) / this.offsetWidth;
+                videoPlayer.volume = pos;
+                volumeBar.style.width = `${pos * 100}%`;
+                
+                if (pos === 0) {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                } else {
+                    volumeBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+                }
+            });
+            
+            // Fullscreen Button
+            fullscreenBtn.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    videoPlayer.requestFullscreen().catch(err => {
+                        console.error('Fullscreen error:', err);
+                    });
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+            
+            // Chat Functionality
+            function addMessage(user, text, isUser = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                
+                const now = new Date();
+                const timeString = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                messageDiv.innerHTML = `
+                    <div class="message-user" style="color: ${isUser ? '#4CAF50' : '#f9cb28'}">${user}</div>
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${timeString}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Sample chat messages
+            const sampleMessages = [
+                { user: 'CricketFan123', text: 'What a shot by Kohli!' },
+                { user: 'SportsLover', text: 'This is getting exciting!' },
+                { user: 'MatchExpert', text: 'The required rate is now 9.5' }
+            ];
+            
+            sampleMessages.forEach(msg => {
+                addMessage(msg.user, msg.text);
+            });
+            
+            // Send message
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message !== '') {
+                    addMessage('You', message, true);
+                    chatInput.value = '';
+                    
+                    // Simulate response
+                    setTimeout(() => {
+                        const responses = [
+                            'Great point!',
+                            'I agree!',
+                            'What a match!',
+                            'This is exciting!'
+                        ];
+                        const randomUser = ['Fan' + Math.floor(Math.random() * 1000), 'CricketLover', 'SportsFan'][Math.floor(Math.random() * 3)];
+                        addMessage(randomUser, responses[Math.floor(Math.random() * responses.length)]);
+                    }, 1000 + Math.random() * 2000);
+                }
+            }
+            
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Simulate incoming chat messages
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance of a new message
+                    const users = ['CricketExpert', 'MatchFan', 'SportsAnalyst', 'GameWatcher'];
+                    const messages = [
+                        'The pitch is slowing down',
+                        'Great bowling change!',
+                        'This partnership is crucial',
+                        'The required rate is climbing',
+                        'Field placement is interesting'
+                    ];
+                    const user = users[Math.floor(Math.random() * users.length)];
+                    const message = messages[Math.floor(Math.random() * messages.length)];
+                    addMessage(user, message);
+                }
+            }, 3000);
+            
+            // Simulate live score updates
+            setInterval(() => {
+                const statCards = document.querySelectorAll('.stat-card .stat-value');
+                if (statCards.length >= 3) {
+                    // Update current run rate
+                    const currentRR = parseFloat(statCards[0].textContent);
+                    statCards[0].textContent = (currentRR + (Math.random() * 0.1 - 0.05)).toFixed(2);
+                    
+                    // Update required run rate
+                    const requiredRR = parseFloat(statCards[1].textContent);
+                    statCards[1].textContent = (requiredRR + (Math.random() * 0.1 - 0.05)).toFixed(2);
+                    
+                    // Update partnership
+                    const partnership = statCards[2].textContent.split(' ');
+                    const runs = parseInt(partnership[0]) + 1;
+                    const balls = parseInt(partnership[1].replace('(', '')) + 1;
+                    statCards[2].textContent = `${runs} (${balls})`;
+                }
+            }, 8000);
+        });
+    </script>
+</body>
+</html>

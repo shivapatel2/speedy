@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Items - Speed World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .free-items-container {
+            padding: 100px 5% 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .admin-controls {
+            display: none;
+        }
+        
+        .admin-mode .admin-controls {
+            display: block;
+        }
+        
+        .free-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .free-panel {
+            background: #252545;
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .free-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .panel-title {
+            color: #f9cb28;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .panel-content {
+            color: #b3b3b3;
+            margin-bottom: 20px;
+        }
+        
+        .panel-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff4d4d;
+            color: white;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .panel-button:hover {
+            background: #e63939;
+            transform: translateY(-2px);
+        }
+        
+        .add-panel-form {
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #b3b3b3;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: #252545;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        
+        .add-button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .edit-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: none;
+        }
+        
+        .admin-mode .edit-button {
+            display: block;
+        }
+        
+        .admin-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as your other pages) -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="anime.html">Anime</a></li>
+            <li><a href="cricket.html">Cricket</a></li>
+            <li><a href="free-items.html" class="active">Free Items</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <div class="free-items-container">
+        <div class="category-header">
+            <h1 class="section-title">Free <span id="category-name">Content</span></h1>
+            <div class="admin-controls">
+                <button id="add-panel-btn" class="panel-button">+ Add New Panel</button>
+            </div>
+        </div>
+        
+        <div class="free-panels" id="free-panels-container">
+            <!-- Panels will be added here dynamically -->
+            <div class="free-panel">
+        
+                <h3 class="panel-title">Free Panels</h3>
+                <p class="panel-content">Access our selection of free panels updated weekly</p>
+                <a href="#" class="panel-button">View Collection</a>
+            </div>
+            
+            <div class="free-panel">
+             
+                <h3 class="panel-title">Free Hacks</h3>
+                <p class="panel-content">Access our selection of free panels updated weekly</p>
+                <a href="#" class="panel-button">View It</a>
+                
+      
+    </div>
+    <div class="free-panel">
+             
+        <h3 class="panel-title">Free Materials</h3>
+        <p class="panel-content">Access our selection of free Material updated weekly</p>
+        <a href="#" class="panel-button">View It</a>
+        
+    </div>
+        
+        
+
+
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get category from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            const categoryName = document.getElementById('category-name');
+            
+            // Set category name
+            if (category) {
+                const categoryMap = {
+                    'movies': 'Movies',
+                    'anime': 'Anime',
+                    'sports': 'Sports'
+                };
+                categoryName.textContent = categoryMap[category] || 'Content';
+            }
+            
+            // Admin mode toggle
+            const adminToggle = document.getElementById('admin-toggle');
+            let adminMode = false;
+            
+            adminToggle.addEventListener('click', function() {
+                adminMode = !adminMode;
+                document.body.classList.toggle('admin-mode', adminMode);
+                adminToggle.textContent = adminMode ? '👑' : '🔧';
+            });
+            
+            // Add panel form toggle
+            const addPanelBtn = document.getElementById('add-panel-btn');
+            const addPanelForm = document.getElementById('add-panel-form');
+            
+            if (addPanelBtn) {
+                addPanelBtn.addEventListener('click', function() {
+                    addPanelForm.style.display = addPanelForm.style.display === 'none' ? 'block' : 'none';
+                });
+            }
+            
+            // Save new panel
+            const savePanelBtn = document.getElementById('save-panel-btn');
+            const panelsContainer = document.getElementById('free-panels-container');
+            
+            if (savePanelBtn) {
+                savePanelBtn.addEventListener('click', function() {
+                    const title = document.getElementById('panel-title').value;
+                    const content = document.getElementById('panel-content').value;
+                    const buttonText = document.getElementById('panel-button-text').value;
+                    const link = document.getElementById('panel-link').value;
+                    
+                    if (title && content && buttonText && link) {
+                        const newPanel = document.createElement('div');
+                        newPanel.className = 'free-panel';
+                        newPanel.innerHTML = `
+                            <button class="edit-button">✎</button>
+                            <h3 class="panel-title">${title}</h3>
+                            <p class="panel-content">${content}</p>
+                            <a href="${link}" class="panel-button">${buttonText}</a>
+                        `;
+                        panelsContainer.appendChild(newPanel);
+                        
+                        // Reset form
+                        document.getElementById('panel-title').value = '';
+                        document.getElementById('panel-content').value = '';
+                        document.getElementById('panel-button-text').value = '';
+                        document.getElementById('panel-link').value = '';
+                        addPanelForm.style.display = 'none';
+                    } else {
+                        alert('Please fill all fields');
+                    }
+                });
+            }
+            
+            // Edit panel functionality would go here
+            // You would need to implement this based on your backend or storage solution
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Cricket - Speed World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Player Page Styles */
+        body.live-player-page {
+            background-color: #0a0a14;
+            color: white;
+        }
+        
+        .player-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* Video Player Section */
+        .video-container {
+            flex: 2;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: #111;
+            position: relative;
+        }
+        
+        .video-placeholder .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .video-info {
+            padding: 15px;
+            background: #1a1a2e;
+        }
+        
+        .match-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #f9cb28;
+        }
+        
+        .match-status {
+            color: #ff4d4d;
+            margin-bottom: 15px;
+        }
+        
+        /* Live Chat Section */
+        .live-chat {
+            flex: 1;
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .chat-messages {
+            margin-bottom: 15px;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: #252545;
+            border-radius: 5px;
+        }
+        
+        .message-user {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            background: #252545;
+            border: none;
+            border-radius: 5px;
+            color: white;
+        }
+        
+        .chat-input button {
+            padding: 10px 15px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Match Stats Section */
+        .match-stats {
+            margin-top: 20px;
+            background: #1a1a2e;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: #252545;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        
+        .stat-title {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.3rem;
+            color: #f9cb28;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="live-player-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="anime.html">Anime</a></li>
+            <li><a href="cricket.html">Cricket</a></li>
+            <li><a href="free-items.html">Free Items</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <div class="player-container">
+        <div class="main-content">
+            <!-- Video Player -->
+            <div class="video-container">
+                <div class="video-placeholder">
+                    <div class="play-icon">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <h2 class="match-title" id="match-title">India vs Australia</h2>
+                    <div class="match-status" id="match-status">Live • 2nd Innings • India need 45 runs in 9 balls</div>
+                </div>
+            </div>
+            
+            <!-- Live Chat -->
+            <div class="live-chat">
+                <div class="chat-header">
+                    <h3>Live Chat</h3>
+                    <span>Online: 1,245</span>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message">
+                        <span class="message-user">CricketFan123:</span> What a shot by Kohli!
+                    </div>
+                    <div class="message">
+                        <span class="message-user">SportsLover:</span> This is getting exciting!
+                    </div>
+                    <div class="message">
+                        <span class="message-user">MatchExpert:</span> The required rate is now 9.5
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Type your message...">
+                    <button id="send-button">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Match Statistics -->
+        <div class="match-stats">
+            <h3>Match Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Current Run Rate</div>
+                    <div class="stat-value" id="current-rr">8.45</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Required Run Rate</div>
+                    <div class="stat-value" id="required-rr">9.50</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Partnership</div>
+                    <div class="stat-value" id="partnership">72 (54)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Last 5 Overs</div>
+                    <div class="stat-value" id="last-overs">45/1</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Target</div>
+                    <div class="stat-value" id="target">332</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Balls Remaining</div>
+                    <div class="stat-value" id="balls-remaining">9</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Live Player Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get match parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const matchId = urlParams.get('match');
+            
+            // Load match data based on ID
+            const matches = {
+                'ind-vs-aus': {
+                    title: 'India vs Australia',
+                    status: 'Live • 2nd Innings • India need 45 runs in 9 balls',
+                    currentRR: '8.45',
+                    requiredRR: '9.50',
+                    partnership: '72 (54)',
+                    lastOvers: '45/1',
+                    target: '332',
+                    ballsRemaining: '9'
+                },
+                'eng-vs-nz': {
+                    title: 'England vs New Zealand',
+                    status: 'Live • 1st Innings • NZ batting',
+                    currentRR: '6.20',
+                    requiredRR: '-',
+                    partnership: '112 (89)',
+                    lastOvers: '32/0',
+                    target: '-',
+                    ballsRemaining: '64'
+                }
+            };
+            
+            const matchData = matches[matchId] || matches['ind-vs-aus'];
+            
+            // Update page with match data
+            document.getElementById('match-title').textContent = matchData.title;
+            document.getElementById('match-status').textContent = matchData.status;
+            document.getElementById('current-rr').textContent = matchData.currentRR;
+            document.getElementById('required-rr').textContent = matchData.requiredRR;
+            document.getElementById('partnership').textContent = matchData.partnership;
+            document.getElementById('last-overs').textContent = matchData.lastOvers;
+            document.getElementById('target').textContent = matchData.target;
+            document.getElementById('balls-remaining').textContent = matchData.ballsRemaining;
+            
+            // Simulate live score updates
+            function updateLiveStats() {
+                // In a real implementation, this would fetch from an API
+                const currentRR = parseFloat(matchData.currentRR);
+                const newRR = (currentRR + (Math.random() * 0.2 - 0.1)).toFixed(2);
+                document.getElementById('current-rr').textContent = newRR;
+                
+                if (matchData.requiredRR !== '-') {
+                    const requiredRR = parseFloat(matchData.requiredRR);
+                    const newRequiredRR = (requiredRR + (Math.random() * 0.1 - 0.05)).toFixed(2);
+                    document.getElementById('required-rr').textContent = newRequiredRR;
+                }
+                
+                // Update balls remaining
+                const ballsRemaining = parseInt(matchData.ballsRemaining);
+                if (ballsRemaining > 0) {
+                    const newBalls = ballsRemaining - 1;
+                    matchData.ballsRemaining = newBalls;
+                    document.getElementById('balls-remaining').textContent = newBalls;
+                    
+                    // Update status
+                    if (matchId === 'ind-vs-aus') {
+                        const runsNeeded = Math.floor(45 * (newBalls / 9));
+                        document.getElementById('match-status').textContent = 
+                            `Live • 2nd Innings • India need ${runsNeeded} runs in ${newBalls} balls`;
+                    }
+                }
+            }
+            
+            setInterval(updateLiveStats, 8000);
+            
+            // Chat functionality
+            const chatInput = document.getElementById('chat-input');
+            const chatMessages = document.getElementById('chat-messages');
+            const sendButton = document.getElementById('send-button');
+            
+            function addMessage(user, message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerHTML = `<span class="message-user">${user}:</span> ${message}`;
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            sendButton.addEventListener('click', function() {
+                if (chatInput.value.trim() !== '') {
+                    addMessage('You', chatInput.value.trim());
+                    chatInput.value = '';
+                    
+                    // Simulate response
+                    setTimeout(() => {
+                        const responses = [
+                            'Great point!',
+                            'I agree!',
+                            'What a match!',
+                            'This is exciting!'
+                        ];
+                        const randomUser = ['Fan' + Math.floor(Math.random() * 1000), 'CricketLover', 'SportsFan'][Math.floor(Math.random() * 3)];
+                        addMessage(randomUser, responses[Math.floor(Math.random() * responses.length)]);
+                    }, 1000 + Math.random() * 2000);
+                }
+            });
+            
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+            
+            // Simulate incoming chat messages
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance of a new message
+                    const users = ['CricketExpert', 'MatchFan', 'SportsAnalyst', 'GameWatcher'];
+                    const messages = [
+                        'The pitch is slowing down',
+                        'Great bowling change!',
+                        'This partnership is crucial',
+                        'The required rate is climbing',
+                        'Field placement is interesting'
+                    ];
+                    const user = users[Math.floor(Math.random() * users.length)];
+                    const message = messages[Math.floor(Math.random() * messages.length)];
+                    addMessage(user, message);
+                }
+            }, 3000);
+            
+            // Simulate player click (in real app would load actual player)
+            document.querySelector('.video-placeholder').addEventListener('click', function() {
+                alert('In a real implementation, this would launch the video player or show playback controls');
+            });
+        });
+    </script>
+</body>
+</html>

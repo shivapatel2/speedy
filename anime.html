@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime - Speed World</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Page Entry Animation */
+        body.anime-page {
+            opacity: 0;
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+        
+        /* Main Content Container */
+        .anime-container {
+            padding: 100px 5% 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Anime Grid Layout */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        /* Anime Card Styles */
+        .anime-card {
+            background: #252545;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .anime-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255,77,77,0.3);
+        }
+        
+        .anime-poster {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .anime-info {
+            padding: 20px;
+        }
+        
+        .anime-title {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+        
+        .anime-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .episode-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .episode-btn:hover {
+            background: linear-gradient(135deg, #e63939, #ff4d4d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,77,77,0.4);
+        }
+        
+        /* Anime Floating Decorations */
+        .anime-icon {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0.15;
+            z-index: 1;
+            animation: floatAround 15s infinite linear;
+            pointer-events: none;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body class="anime-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="anime.html" class="active">Anime</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="anime-container">
+        <h1 class="section-title">Popular Anime Series</h1>
+        
+        <div class="anime-grid">
+            <!-- Anime 1 -->
+            <div class="anime-card">
+                <div class="anime-icon" style="top: 10px; right: 10px;">✿</div>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=Anime+1" alt="Ninja Legends" class="anime-poster">
+                <div class="anime-info">
+                    <h3 class="anime-title">Ninja Legends</h3>
+                    <div class="anime-meta">
+                        <span>Season 3</span>
+                        <span>★ 4.8/5</span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- Anime 2 -->
+            <div class="anime-card">
+                <div class="anime-icon" style="bottom: 20px; left: 15px;">❀</div>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=Anime+2" alt="Cyber Samurai" class="anime-poster">
+                <div class="anime-info">
+                    <h3 class="anime-title">Cyber Samurai</h3>
+                    <div class="anime-meta">
+                        <span>Season 1</span>
+                        <span>★ 4.6/5</span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- Anime 3 -->
+            <div class="anime-card">
+                <div class="anime-icon" style="top: 50%; left: 50%;">✧</div>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=Anime+3" alt="Magical Girls" class="anime-poster">
+                <div class="anime-info">
+                    <h3 class="anime-title">Magical Girls</h3>
+                    <div class="anime-meta">
+                        <span>Season 2</span>
+                        <span>★ 4.9/5</span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- Anime 4 -->
+            <div class="anime-card">
+                <div class="anime-icon" style="bottom: 10px; right: 20px;">♡</div>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=Anime+4" alt="Space Explorers" class="anime-poster">
+                <div class="anime-info">
+                    <h3 class="anime-title">Space Explorers</h3>
+                    <div class="anime-meta">
+                        <span>Season 4</span>
+                        <span>★ 4.7/5</span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating anime decorations
+            const icons = ['✿', '❀', '✧', '♡', '★', '✪', '✦'];
+            for (let i = 0; i < 20; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'anime-icon';
+                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.style.left = `${Math.random() * 100}%`;
+                icon.style.top = `${Math.random() * 100}%`;
+                icon.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+                icon.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                icon.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(icon);
+            }
+            
+            // Add the floatAround keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatAround {
+                    0% { transform: translate(0, 0) rotate(0deg); }
+                    25% { transform: translate(20px, 20px) rotate(10deg); }
+                    50% { transform: translate(40px, 0) rotate(0deg); }
+                    75% { transform: translate(20px, -20px) rotate(-10deg); }
+                    100% { transform: translate(0, 0) rotate(0deg); }
+                }
+                
+                @keyframes pageFadeIn {
+                    to { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.anime-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `cardPopIn 0.6s ease-out ${index * 0.1}s forwards`;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Add cardPopIn animation
+            const cardStyle = document.createElement('style');
+            cardStyle.textContent = `
+                @keyframes cardPopIn {
+                    from { opacity: 0; transform: translateY(20px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(cardStyle);
+        });
+    </script>
+</body>
+</html>

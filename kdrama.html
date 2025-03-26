@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-Dramas - Speed World</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page Entry Animation */
+        body.kdrama-page {
+            opacity: 0;
+            animation: pageFadeIn 0.8s ease-out forwards;
+        }
+        
+        /* Main Content Container */
+        .kdrama-container {
+            padding: 100px 5% 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* K-Drama Grid Layout */
+        .kdrama-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        /* K-Drama Card Styles */
+        .kdrama-card {
+            background: #252545;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .kdrama-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(255,77,77,0.3);
+        }
+        
+        .kdrama-poster {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .kdrama-info {
+            padding: 20px;
+        }
+        
+        .kdrama-title {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: #ff4d4d;
+            font-weight: 600;
+        }
+        
+        .kdrama-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .episode-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .episode-btn:hover {
+            background: linear-gradient(135deg, #e63939, #ff4d4d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,77,77,0.4);
+        }
+        
+        /* K-Drama Floating Decorations */
+        .kdrama-icon {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0.15;
+            z-index: 1;
+            animation: floatAround 15s infinite linear;
+            pointer-events: none;
+            color: #ff4d4d;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #ff4d4d;
+        }
+        
+        /* K-Drama Specific Styles */
+        .kdrama-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff4d4d;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 2;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            color: #f9cb28;
+        }
+        
+        .rating i {
+            margin-right: 3px;
+        }
+        
+        /* Animations */
+        @keyframes pageFadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, 20px) rotate(5deg); }
+            50% { transform: translate(40px, 0) rotate(0deg); }
+            75% { transform: translate(20px, -20px) rotate(-5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        
+        @keyframes cardPopIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="kdrama-page">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="anime.html">Anime</a></li>
+            <li><a href="kdrama.html" class="active">K-Dramas</a></li>
+            <li><a href="cricket.html">Cricket</a></li>
+            <li><a href="free-items.html">Free Items</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="kdrama-container">
+        <h1 class="section-title">Popular K-Dramas</h1>
+        
+        <div class="kdrama-grid">
+            <!-- K-Drama 1 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="top: 10px; right: 10px;">❤️</div>
+                <span class="kdrama-badge">New</span>
+                <img src="https://i.ibb.co/FLXghQP3/photo-2025-03-26-00-39-40.jpg" alt="Crash Landing On You" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">Queen of Tears</h3>
+                    <div class="kdrama-meta">
+                        <span>2020 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            9.0
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- K-Drama 2 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="bottom: 20px; left: 15px;">✨</div>
+                <span class="kdrama-badge">Trending</span>
+                <img src="https://i.ibb.co/yLLbC65/photo-2025-03-26-00-39-39.jpg" alt="Squid Game" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">Squid Game</h3>
+                    <div class="kdrama-meta">
+                        <span>2021 • 9 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            8.8
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- K-Drama 3 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="top: 50%; left: 50%;">🌸</div>
+                <img src="https://i.ibb.co/mFXWz3FS/photo-2025-03-26-00-52-20.jpg" alt="Goblin" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">When the Phone Rings</h3>
+                    <div class="kdrama-meta">
+                        <span>2017 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            8.9
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- K-Drama 4 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="bottom: 10px; right: 20px;">🔥</div>
+                <span class="kdrama-badge">Popular</span>
+                <img src="https://i.ibb.co/gbSVWFdB/photo-2025-03-26-01-02-59.jpg" alt="Itaewon Class" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">Vincenzo</h3>
+                    <div class="kdrama-meta">
+                        <span>2020 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            8.7
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- K-Drama 5 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="top: 20px; left: 20px;">💫</div>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=The+Glory" alt="The Glory" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">The Glory</h3>
+                    <div class="kdrama-meta">
+                        <span>2023 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            9.1
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+            
+            <!-- K-Drama 6 -->
+            <div class="kdrama-card">
+                <div class="kdrama-icon" style="bottom: 30px; right: 30px;">💖</div>
+                <span class="kdrama-badge">New</span>
+                <img src="https://via.placeholder.com/300x450/252545/ffffff?text=King+The+Land" alt="King The Land" class="kdrama-poster">
+                <div class="kdrama-info">
+                    <h3 class="kdrama-title">King The Land</h3>
+                    <div class="kdrama-meta">
+                        <span>2023 • 16 Episodes</span>
+                        <span class="rating">
+                            <i class="fas fa-star"></i>
+                            8.5
+                        </span>
+                    </div>
+                    <button class="episode-btn">Watch Latest Episode</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating K-Drama decorations
+            const icons = ['❤️', '✨', '🌸', '🔥', '💫', '💖', '🌟', '☘️'];
+            for (let i = 0; i < 20; i++) {
+                const icon = document.createElement('div');
+                icon.className = 'kdrama-icon';
+                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.style.left = `${Math.random() * 100}%`;
+                icon.style.top = `${Math.random() * 100}%`;
+                icon.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+                icon.style.animationDuration = `${Math.random() * 20 + 10}s`;
+                icon.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.appendChild(icon);
+            }
+            
+            // Add the floatAround keyframes
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatAround {
+                    0% { transform: translate(0, 0) rotate(0deg); }
+                    25% { transform: translate(20px, 20px) rotate(5deg); }
+                    50% { transform: translate(40px, 0) rotate(0deg); }
+                    75% { transform: translate(20px, -20px) rotate(-5deg); }
+                    100% { transform: translate(0, 0) rotate(0deg); }
+                }
+                
+                @keyframes pageFadeIn {
+                    to { opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Animate K-Drama cards
+            const cards = document.querySelectorAll('.kdrama-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `cardPopIn 0.5s ease-out ${index * 0.1}s forwards`;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Add cardPopIn animation
+            const cardStyle = document.createElement('style');
+            cardStyle.textContent = `
+                @keyframes cardPopIn {
+                    0% { opacity: 0; transform: translateY(20px); }
+                    50% { opacity: 1; transform: translateY(-10px); }
+                    100% { opacity: 1; transform: translateY(0); }
+                }
+            `;
+            document.head.appendChild(cardStyle);
+            
+            // Set up episode buttons
+            document.querySelectorAll('.episode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const kdramaTitle = this.closest('.kdrama-card').querySelector('.kdrama-title').textContent;
+                    alert(`Would play latest episode of "${kdramaTitle}" in a real implementation`);
+                    // In real implementation, redirect to player page:
+                    // window.location.href = `player.html?show=${encodeURIComponent(kdramaTitle)}`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

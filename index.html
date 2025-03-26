@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPEED WORLD - Unlimited Entertainment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional inline styles for particles */
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 77, 77, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translate(calc(100vw * var(--random-x)), calc(100vh * var(--random-y)));
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Animation -->
+    <div class="welcome-overlay">
+        <div class="welcome-content">
+            <h1 class="welcome-text">WELCOME TO <span>SPEED WORLD</span></h1>
+            <div class="loader"></div>
+        </div>
+    </div>
+
+    <!-- Floating Particles Container -->
+    <div id="particles-js"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#streaming">Streaming</a></li>
+            <li><a href="free-items.html" class="free-nav-button">Free Items</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+    <li class="nav-dropdown">
+        <a href="javascript:void(0)">Free Items <i class="fas fa-chevron-down"></i></a>
+        <div class="dropdown-menu">
+            <a href="free-items.html?category=movies">Free Movies</a>
+            <a href="free-items.html?category=anime">Free Anime</a>
+            <a href="free-items.html?category=sports">Free Sports</a>
+        </div>
+    </li>
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Unlimited Entertainment</h1>
+            <p class="hero-subtitle">Movies, Anime, Cricket - All in One Place</p>
+            <a href="#streaming" class="cta-button">Start Streaming</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://via.placeholder.com/600x400" alt="Entertainment" class="hero-img">
+        </div>
+    </section>
+
+    <!-- Streaming Section -->
+    <section id="streaming" class="streaming-section">
+        <h2 class="section-title">Streaming Categories</h2>
+       <!-- In your streaming section, modify the category cards -->
+       <div class="streaming-categories">
+        <!-- Movies Category -->
+        <div class="category-card">
+            <div class="category-icon">
+                <i class="fas fa-film"></i>
+            </div>
+            <h3>Movies</h3>
+            <p>Latest blockbusters and classic films</p>
+            <a href="movies.html" target="_blank" class="stream-button">Browse Movies</a>
+        </div>
+
+        <!-- Anime Category -->
+        <div class="category-card">
+            <div class="category-icon">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h3>Anime</h3>
+            <p>Popular and trending anime series</p>
+            <a href="anime.html" target="_blank" class="stream-button">Browse Anime</a>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h3>KDrama</h3>
+            <p>Popular and trending KDrama</p>
+            <a href="kdrama.html" target="_blank" class="stream-button">Browse KDrama</a>
+        </div>
+<!-- In your streaming categories section, update the cricket card -->
+
+<!-- In your streaming categories section, update the cricket card -->
+<div class="category-card">
+    <div class="category-icon">
+        <i class="fas fa-baseball-ball"></i>
+    </div>
+    <h3>Cricket</h3>
+    <p>Live matches and highlights</p>
+    <a href="cricket.html" class="stream-button">Watch Cricket</a>
+</div>
+        <!-- Cricket Category -->
+        
+
+
+        <!-- Cricket Subsection -->
+       
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <h2 class="section-title">About Speed World</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to Speed World, your ultimate destination for unlimited entertainment. We provide high-quality streaming for movies, anime, and live cricket matches.</p>
+                <p>Our mission is to bring all your favorite content under one roof with seamless streaming experience and minimal buffering.</p>
+                <p>Founded in 2023, Speed World has quickly become a favorite among entertainment enthusiasts worldwide.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <h3>10,000+</h3>
+                        <p>Movies</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>500+</h3>
+                        <p>Anime Series</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>Live</h3>
+                        <p>Cricket Matches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <img src="https://via.placeholder.com/500x400" alt="About Speed World">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Get in Touch</h3>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>123 Entertainment Street, Digital City</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <p>+1 234 567 890</p>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>contact@speedworld.com</p>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Subject">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>Speed World</h2>
+                <p>Unlimited Entertainment</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#streaming">Streaming</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Streaming</h3>
+                <ul>
+                    <li><a href="movies.html" target="_blank">Movies</a></li>
+                    <li><a href="anime.html" target="_blank">Anime</a></li>
+                    <li><a href="#cricket">Cricket</a></li>
+                </ul>
+            </div>
+            <div class="footer-newsletter">
+                <h3>Newsletter</h3>
+                <p>Subscribe to get updates on new content</p>
+                <form>
+                    <input type="email" placeholder="Your Email">
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Speed World. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Create floating particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles-js');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 6 + 2;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 10 + 10;
+                const delay = Math.random() * 5;
+                const randomX = (Math.random() - 0.5) * 2;
+                const randomY = (Math.random() - 0.5) * 2;
+                
+                // Apply styles
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.setProperty('--random-x', randomX);
+                particle.style.setProperty('--random-y', randomY);
+                
+                // Random color variation
+                const colorValue = Math.floor(Math.random() * 60 + 180);
+                particle.style.backgroundColor = `rgba(255, ${colorValue}, ${colorValue}, 0.6)`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>

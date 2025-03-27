@@ -4,25 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Squid Game - Speed World</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             background-color: #1a1a2e;
             color: #ffffff;
             font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background-color: #0f0f23;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .logo h1 {
+            color: #ff4d4d;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 20px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #ff4d4d;
+        }
+        
+        .burger {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 5px;
+            transition: all 0.3s ease;
         }
         
         .kdrama-detail-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 20px 40px;
+            padding: 100px 20px 40px;
         }
         
         .kdrama-header {
             display: flex;
             gap: 30px;
             margin-bottom: 40px;
+            flex-wrap: wrap;
         }
         
         .kdrama-poster {
@@ -35,6 +93,7 @@
         
         .kdrama-info {
             flex: 1;
+            min-width: 300px;
         }
         
         .kdrama-title {
@@ -56,8 +115,20 @@
         }
         
         .kdrama-description {
-            line-height: 1.6;
             margin-bottom: 30px;
+        }
+        
+        .kdrama-tags {
+            margin-top: 20px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #252545;
+            border-radius: 15px;
+            margin-right: 10px;
+            font-size: 0.9rem;
         }
         
         .video-container {
@@ -66,11 +137,42 @@
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 40px;
+            position: relative;
+            aspect-ratio: 16/9;
         }
         
-        video {
+        .video-iframe {
             width: 100%;
-            display: block;
+            height: 100%;
+            border: none;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff4d4d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .episode-selector {
@@ -98,6 +200,11 @@
             background: #ff4d4d;
         }
         
+        .episode-btn.active {
+            background: #ff4d4d;
+            font-weight: bold;
+        }
+        
         .cast-container {
             margin-top: 40px;
         }
@@ -111,14 +218,57 @@
         
         .cast-card {
             text-align: center;
+            background: #252545;
+            padding: 15px;
+            border-radius: 10px;
         }
         
         .cast-img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                right: 0;
+                top: 70px;
+                background-color: #0f0f23;
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+            }
+            
+            .nav-links.active {
+                transform: translateX(0);
+            }
+            
+            .nav-links li {
+                padding: 15px;
+                margin: 0;
+            }
+            
+            .burger {
+                display: block;
+            }
+            
+            .kdrama-header {
+                flex-direction: column;
+            }
+            
+            .kdrama-poster {
+                width: 100%;
+                height: auto;
+            }
+            
+            .episode-list {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
         }
     </style>
 </head>
@@ -165,24 +315,17 @@
         </div>
         
         <div class="video-container">
-            <video controls poster="https://i.ibb.co/yLLbC65/photo-2025-03-26-00-39-39.jpg">
-                <source src="https://example.com/videos/squid-game-ep9.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+            </div>
+            <iframe id="videoPlayer" class="video-iframe" allowfullscreen></iframe>
         </div>
         
         <div class="episode-selector">
             <h2>Episodes</h2>
-            <div class="episode-list">
-                <button class="episode-btn">Episode 1</button>
-                <button class="episode-btn">Episode 2</button>
-                <button class="episode-btn">Episode 3</button>
-                <button class="episode-btn">Episode 4</button>
-                <button class="episode-btn">Episode 5</button>
-                <button class="episode-btn">Episode 6</button>
-                <button class="episode-btn">Episode 7</button>
-                <button class="episode-btn">Episode 8</button>
-                <button class="episode-btn">Episode 9</button>
+            <div class="episode-list" id="episodeList">
+                <!-- Episodes will be generated by JavaScript -->
+               
             </div>
         </div>
         
@@ -213,25 +356,125 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const video = document.querySelector('video');
-            const episodeBtns = document.querySelectorAll('.episode-btn');
+            // Mobile navigation toggle
+            const burger = document.querySelector('.burger');
+            const navLinks = document.querySelector('.nav-links');
             
-            episodeBtns.forEach((btn, index) => {
-                btn.addEventListener('click', function() {
-                    video.src = `https://example.com/videos/squid-game-ep${index+1}.mp4`;
-                    video.load();
-                    video.play();
-                    
-                    episodeBtns.forEach(b => b.style.background = '#252545');
-                    this.style.background = '#ff4d4d';
-                });
+            burger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                burger.classList.toggle('toggle');
             });
             
-            if (episodeBtns.length > 0) {
-                episodeBtns[0].style.background = '#ff4d4d';
+            // Video player functionality
+            const videoPlayer = document.getElementById('videoPlayer');
+            const episodeList = document.getElementById('episodeList');
+            const loadingOverlay = document.querySelector('.loading-overlay');
+            
+            // Google Drive file IDs for each episode
+            const episodes = [
+                { 
+                    number: 1, 
+                    title: "Episode 1", 
+                    fileId:"14mK1A5NWLhkmZYbXUSQI4lHx4LdJqCff"
+                },
+                { 
+                    number: 2, 
+                    title: "Episode 2", 
+                    fileId: "1P1Tpgl3MynUgIQ4FjC6_V4NAmwjXQHLu" 
+                },
+                { 
+                    number: 3, 
+                    title: "Episode 3", 
+                    fileId: "1P1Tpgl3MynUgIQ4FjC6_V4NAmwjXQHLu" 
+                },
+                { 
+                    number: 4, 
+                    title: "Episode 4", 
+                    fileId: "" 
+                },
+                { 
+                    number: 5, 
+                    title: "Episode 5", 
+                    fileId: "" 
+                },
+                { 
+                    number: 6, 
+                    title: "Episode 6", 
+                    fileId: "" 
+                },
+                { 
+                    number: 7, 
+                    title: "Episode 7", 
+                    fileId: "" 
+                },
+                { 
+                    number: 8, 
+                    title: "Episode 8", 
+                    fileId: "" 
+                },
+                { 
+                    number: 9, 
+                    title: "Episode 9", 
+                    fileId: "" 
+                }
+            ];
+            
+            // Generate episode buttons
+            function createEpisodeButtons() {
+                episodeList.innerHTML = '';
+                
+                episodes.forEach(episode => {
+                    if (episode.fileId) {
+                        const btn = document.createElement('button');
+                        btn.className = 'episode-btn';
+                        btn.textContent = episode.title;
+                        btn.setAttribute('data-file-id', episode.fileId);
+                        
+                        btn.addEventListener('click', function() {
+                            loadGoogleDriveVideo(episode.fileId);
+                            document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                        
+                        episodeList.appendChild(btn);
+                    }
+                });
+            }
+            
+            // Load Google Drive video
+            function loadGoogleDriveVideo(fileId) {
+                loadingOverlay.style.display = 'flex';
+                videoPlayer.src = '';
+                
+                setTimeout(() => {
+                    const embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+                    videoPlayer.src = embedUrl;
+                    
+                    videoPlayer.onload = function() {
+                        loadingOverlay.style.display = 'none';
+                    };
+                    
+                    // Error handling
+                    videoPlayer.onerror = function() {
+                        loadingOverlay.style.display = 'none';
+                        alert('Error loading video. Please check the file permissions.');
+                    };
+                }, 500);
+            }
+            
+            // Initialize
+            createEpisodeButtons();
+            
+            // Load first available episode
+            const firstEpisodeWithFile = episodes.find(ep => ep.fileId);
+            if (firstEpisodeWithFile) {
+                const firstBtn = episodeList.querySelector('.episode-btn');
+                if (firstBtn) {
+                    firstBtn.classList.add('active');
+                    loadGoogleDriveVideo(firstEpisodeWithFile.fileId);
+                }
             }
         });
     </script>

@@ -66,6 +66,7 @@
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 40px;
+            position: relative;
         }
         
         video {
@@ -98,6 +99,11 @@
             background: #ff4d4d;
         }
         
+        .episode-btn.active {
+            background: #ff4d4d;
+            font-weight: bold;
+        }
+        
         .cast-container {
             margin-top: 40px;
         }
@@ -120,10 +126,46 @@
             border-radius: 10px;
             margin-bottom: 10px;
         }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff4d4d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #252545;
+            border-radius: 15px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="logo">
             <h1>Speed World</h1>
@@ -143,7 +185,6 @@
         </div>
     </nav>
 
-    <!-- K-Drama Detail Content -->
     <div class="kdrama-detail-container">
         <div class="kdrama-header">
             <img src="https://i.ibb.co/FLXghQP3/photo-2025-03-26-00-39-40.jpg" alt="Queen of Tears" class="kdrama-poster">
@@ -168,8 +209,11 @@
         </div>
         
         <div class="video-container">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+            </div>
             <video controls poster="https://i.ibb.co/FLXghQP3/photo-2025-03-26-00-39-40.jpg">
-                <source src="https://example.com/videos/queen-of-tears-ep16.mp4" type="video/mp4">
+                <source src="https://example.com/videos/queen-of-tears-ep1.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -177,22 +221,22 @@
         <div class="episode-selector">
             <h2>Episodes</h2>
             <div class="episode-list">
-                <button class="episode-btn">Episode 1</button>
-                <button class="episode-btn">Episode 2</button>
-                <button class="episode-btn">Episode 3</button>
-                <button class="episode-btn">Episode 4</button>
-                <button class="episode-btn">Episode 5</button>
-                <button class="episode-btn">Episode 6</button>
-                <button class="episode-btn">Episode 7</button>
-                <button class="episode-btn">Episode 8</button>
-                <button class="episode-btn">Episode 9</button>
-                <button class="episode-btn">Episode 10</button>
-                <button class="episode-btn">Episode 11</button>
-                <button class="episode-btn">Episode 12</button>
-                <button class="episode-btn">Episode 13</button>
-                <button class="episode-btn">Episode 14</button>
-                <button class="episode-btn">Episode 15</button>
-                <button class="episode-btn">Episode 16</button>
+                <button class="episode-btn active" data-episode="1">Episode 1</button>
+                <button class="episode-btn" data-episode="2">Episode 2</button>
+                <button class="episode-btn" data-episode="3">Episode 3</button>
+                <button class="episode-btn" data-episode="4">Episode 4</button>
+                <button class="episode-btn" data-episode="5">Episode 5</button>
+                <button class="episode-btn" data-episode="6">Episode 6</button>
+                <button class="episode-btn" data-episode="7">Episode 7</button>
+                <button class="episode-btn" data-episode="8">Episode 8</button>
+                <button class="episode-btn" data-episode="9">Episode 9</button>
+                <button class="episode-btn" data-episode="10">Episode 10</button>
+                <button class="episode-btn" data-episode="11">Episode 11</button>
+                <button class="episode-btn" data-episode="12">Episode 12</button>
+                <button class="episode-btn" data-episode="13">Episode 13</button>
+                <button class="episode-btn" data-episode="14">Episode 14</button>
+                <button class="episode-btn" data-episode="15">Episode 15</button>
+                <button class="episode-btn" data-episode="16">Episode 16</button>
             </div>
         </div>
         
@@ -223,31 +267,63 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // JavaScript for video player functionality
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.querySelector('video');
             const episodeBtns = document.querySelectorAll('.episode-btn');
+            const loadingOverlay = document.querySelector('.loading-overlay');
             
-            // Change video source when episode is selected
-            episodeBtns.forEach((btn, index) => {
+            // Video sources for Queen of Tears episodes
+            const episodeSources = {
+                1: "ep1.mp4",
+                2: "ep2.mp4",
+                3: "https://example.com/videos/queen-of-tears-ep3.mp4",
+                4: "https://example.com/videos/queen-of-tears-ep4.mp4",
+                5: "https://example.com/videos/queen-of-tears-ep5.mp4",
+                6: "https://example.com/videos/queen-of-tears-ep6.mp4",
+                7: "https://example.com/videos/queen-of-tears-ep7.mp4",
+                8: "https://example.com/videos/queen-of-tears-ep8.mp4",
+                9: "https://example.com/videos/queen-of-tears-ep9.mp4",
+                10: "https://example.com/videos/queen-of-tears-ep10.mp4",
+                11: "https://example.com/videos/queen-of-tears-ep11.mp4",
+                12: "https://example.com/videos/queen-of-tears-ep12.mp4",
+                13: "https://example.com/videos/queen-of-tears-ep13.mp4",
+                14: "https://example.com/videos/queen-of-tears-ep14.mp4",
+                15: "https://example.com/videos/queen-of-tears-ep15.mp4",
+                16: "https://example.com/videos/queen-of-tears-ep16.mp4"
+            };
+            
+            episodeBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // In a real implementation, this would load the corresponding episode
-                    video.src = `https://example.com/videos/queen-of-tears-ep${index+1}.mp4`;
-                    video.load();
-                    video.play();
+                    const episodeNum = this.getAttribute('data-episode');
+                    const videoSrc = episodeSources[episodeNum];
                     
-                    // Update active episode button
-                    episodeBtns.forEach(b => b.style.background = '#252545');
-                    this.style.background = '#ff4d4d';
+                    // Show loading spinner
+                    loadingOverlay.style.display = 'flex';
+                    
+                    // Change video source
+                    video.src = videoSrc;
+                    
+                    // Reset the video and load new source
+                    video.load();
+                    
+                    // When new video is ready to play
+                    video.addEventListener('canplay', function() {
+                        loadingOverlay.style.display = 'none';
+                        video.play().catch(e => console.log('Autoplay prevented:', e));
+                    }, { once: true });
+                    
+                    // Handle potential errors
+                    video.addEventListener('error', function() {
+                        loadingOverlay.style.display = 'none';
+                        alert('Error loading video. Please try again later.');
+                    }, { once: true });
+                    
+                    // Update active button
+                    episodeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
                 });
             });
-            
-            // Set first episode as active by default
-            if (episodeBtns.length > 0) {
-                episodeBtns[0].style.background = '#ff4d4d';
-            }
         });
     </script>
 </body>

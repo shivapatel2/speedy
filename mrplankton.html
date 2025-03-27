@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MR. PLANKTON - Speed World</title>
-    <!-- Same styles as above -->
+    <title>Mr. Plankton - Speed World</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -40,7 +39,7 @@
         
         .kdrama-title {
             font-size: 2.5rem;
-            color: #ff4d4d;
+            color: #4dff4d;
             margin-bottom: 10px;
         }
         
@@ -67,6 +66,7 @@
             border-radius: 10px;
             overflow: hidden;
             margin-bottom: 40px;
+            position: relative;
         }
         
         video {
@@ -96,7 +96,12 @@
         }
         
         .episode-btn:hover {
-            background: #ff4d4d;
+            background: #4dff4d;
+        }
+        
+        .episode-btn.active {
+            background: #4dff4d;
+            font-weight: bold;
         }
         
         .cast-container {
@@ -121,37 +126,85 @@
             border-radius: 10px;
             margin-bottom: 10px;
         }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            display: none;
+        }
+        
+        .spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #4dff4d;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
     <nav class="navbar">
-        <!-- Same navigation as above -->
+        <div class="logo">
+            <h1>Speed World</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="movies.html">Movies</a></li>
+            <li><a href="anime.html">Anime</a></li>
+            <li><a href="kdrama.html">K-Dramas</a></li>
+            <li><a href="cricket.html">Cricket</a></li>
+            <li><a href="free-items.html">Free Items</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
     </nav>
 
     <div class="kdrama-detail-container">
         <div class="kdrama-header">
-            <img src="https://i.ibb.co/HL104RLK/photo-2025-03-26-01-13-11.jpg" alt="MR. PLANKTON" class="kdrama-poster">
+            <img src="https://i.ibb.co/SXr2xDb9/photo-2025-03-26-01-13-10.jpg" alt="Mr. Plankton" class="kdrama-poster">
             <div class="kdrama-info">
-                <h1 class="kdrama-title">MR. PLANKTON</h1>
+                <h1 class="kdrama-title">Mr. Plankton</h1>
                 <div class="kdrama-meta">
-                    <span>2023 • 16 Episodes</span>
-                    <span class="rating"><i class="fas fa-star"></i> 8.5</span>
-                    <span>TV-MA</span>
+                    <span>2024 • 24 Episodes</span>
+                    <span class="rating"><i class="fas fa-star"></i> 8.9</span>
+                    <span>TV-PG</span>
                 </div>
                 <p class="kdrama-description">
-                    A mysterious marine biologist with a dark past arrives at a small coastal town where strange events begin occurring. As he investigates unusual marine phenomena, he uncovers a conspiracy that connects to his own forgotten memories.
+                    A hilarious underwater adventure following the life of Sheldon J. Plankton, the tiny but ambitious owner of the Chum Bucket restaurant. 
+                    Watch as he constantly schemes to steal the Krabby Patty secret formula from his rival Mr. Krabs, 
+                    while dealing with his computer wife Karen and the ever-vigilant SpongeBob SquarePants.
                 </p>
                 <div class="kdrama-tags">
-                    <span class="tag">Mystery</span>
-                    <span class="tag">Thriller</span>
-                    <span class="tag">Sci-Fi</span>
+                    <span class="tag">Comedy</span>
+                    <span class="tag">Animation</span>
+                    <span class="tag">Adventure</span>
                 </div>
             </div>
         </div>
         
         <div class="video-container">
-            <video controls poster="https://i.ibb.co/HL104RLK/photo-2025-03-26-01-13-11.jpg">
-                <source src="https://example.com/videos/mr-plankton-ep16.mp4" type="video/mp4">
+            <div class="loading-overlay">
+                <div class="spinner"></div>
+            </div>
+            <video controls poster="https://i.ibb.co/SXr2xDb9/photo-2025-03-26-01-13-10.jpg">
+                <source src="https://example.com/videos/mr-plankton-ep1.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
@@ -159,10 +212,31 @@
         <div class="episode-selector">
             <h2>Episodes</h2>
             <div class="episode-list">
-                <!-- Episodes 1-16 buttons -->
-                <button class="episode-btn">Episode 1</button>
-                <button class="episode-btn">Episode 2</button>
-                <!-- ... up to Episode 16 -->
+                <!-- Episodes 1-24 buttons -->
+                <button class="episode-btn active" data-episode="1">Episode 1</button>
+                <button class="episode-btn" data-episode="2">Episode 2</button>
+                <button class="episode-btn" data-episode="3">Episode 3</button>
+                <button class="episode-btn" data-episode="4">Episode 4</button>
+                <button class="episode-btn" data-episode="5">Episode 5</button>
+                <button class="episode-btn" data-episode="6">Episode 6</button>
+                <button class="episode-btn" data-episode="7">Episode 7</button>
+                <button class="episode-btn" data-episode="8">Episode 8</button>
+                <button class="episode-btn" data-episode="9">Episode 9</button>
+                <button class="episode-btn" data-episode="10">Episode 10</button>
+                <button class="episode-btn" data-episode="11">Episode 11</button>
+                <button class="episode-btn" data-episode="12">Episode 12</button>
+                <button class="episode-btn" data-episode="13">Episode 13</button>
+                <button class="episode-btn" data-episode="14">Episode 14</button>
+                <button class="episode-btn" data-episode="15">Episode 15</button>
+                <button class="episode-btn" data-episode="16">Episode 16</button>
+                <button class="episode-btn" data-episode="17">Episode 17</button>
+                <button class="episode-btn" data-episode="18">Episode 18</button>
+                <button class="episode-btn" data-episode="19">Episode 19</button>
+                <button class="episode-btn" data-episode="20">Episode 20</button>
+                <button class="episode-btn" data-episode="21">Episode 21</button>
+                <button class="episode-btn" data-episode="22">Episode 22</button>
+                <button class="episode-btn" data-episode="23">Episode 23</button>
+                <button class="episode-btn" data-episode="24">Episode 24</button>
             </div>
         </div>
         
@@ -170,41 +244,94 @@
             <h2>Cast</h2>
             <div class="cast-grid">
                 <div class="cast-card">
-                    <img src="https://via.placeholder.com/150x200?text=Ji+Chang-wook" alt="Ji Chang-wook" class="cast-img">
-                    <h3>Ji Chang-wook</h3>
-                    <p>Dr. Kang Min-ho</p>
+                    <img src="https://via.placeholder.com/150x200?text=Mr.+Plankton" alt="Mr. Plankton" class="cast-img">
+                    <h3>Mr. Plankton</h3>
+                    <p>Sheldon J. Plankton</p>
                 </div>
                 <div class="cast-card">
-                    <img src="https://via.placeholder.com/150x200?text=Shin+Hye-sun" alt="Shin Hye-sun" class="cast-img">
-                    <h3>Shin Hye-sun</h3>
-                    <p>Lee Ha-na</p>
+                    <img src="https://via.placeholder.com/150x200?text=Karen" alt="Karen" class="cast-img">
+                    <h3>Karen</h3>
+                    <p>Plankton's Computer Wife</p>
                 </div>
-                <!-- More cast members -->
+                <div class="cast-card">
+                    <img src="https://via.placeholder.com/150x200?text=Mr.+Krabs" alt="Mr. Krabs" class="cast-img">
+                    <h3>Mr. Krabs</h3>
+                    <p>Eugene H. Krabs</p>
+                </div>
+                <div class="cast-card">
+                    <img src="https://via.placeholder.com/150x200?text=SpongeBob" alt="SpongeBob" class="cast-img">
+                    <h3>SpongeBob</h3>
+                    <p>SpongeBob SquarePants</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // Same JavaScript as above
         document.addEventListener('DOMContentLoaded', function() {
             const video = document.querySelector('video');
             const episodeBtns = document.querySelectorAll('.episode-btn');
+            const loadingOverlay = document.querySelector('.loading-overlay');
             
-            episodeBtns.forEach((btn, index) => {
+            // Video sources for Mr. Plankton episodes
+            const episodeSources = {
+                1: "ep1.mp4",
+                2: "ep2.mp4",
+                3: "https://example.com/videos/mr-plankton-ep3.mp4",
+                4: "https://example.com/videos/mr-plankton-ep4.mp4",
+                5: "https://example.com/videos/mr-plankton-ep5.mp4",
+                6: "https://example.com/videos/mr-plankton-ep6.mp4",
+                7: "https://example.com/videos/mr-plankton-ep7.mp4",
+                8: "https://example.com/videos/mr-plankton-ep8.mp4",
+                9: "https://example.com/videos/mr-plankton-ep9.mp4",
+                10: "https://example.com/videos/mr-plankton-ep10.mp4",
+                11: "https://example.com/videos/mr-plankton-ep11.mp4",
+                12: "https://example.com/videos/mr-plankton-ep12.mp4",
+                13: "https://example.com/videos/mr-plankton-ep13.mp4",
+                14: "https://example.com/videos/mr-plankton-ep14.mp4",
+                15: "https://example.com/videos/mr-plankton-ep15.mp4",
+                16: "https://example.com/videos/mr-plankton-ep16.mp4",
+                17: "https://example.com/videos/mr-plankton-ep17.mp4",
+                18: "https://example.com/videos/mr-plankton-ep18.mp4",
+                19: "https://example.com/videos/mr-plankton-ep19.mp4",
+                20: "https://example.com/videos/mr-plankton-ep20.mp4",
+                21: "https://example.com/videos/mr-plankton-ep21.mp4",
+                22: "https://example.com/videos/mr-plankton-ep22.mp4",
+                23: "https://example.com/videos/mr-plankton-ep23.mp4",
+                24: "https://example.com/videos/mr-plankton-ep24.mp4"
+            };
+            
+            episodeBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    video.src = `https://example.com/videos/lovely-runner-ep${index+1}.mp4`;
-                    video.load();
-                    video.play();
+                    const episodeNum = this.getAttribute('data-episode');
+                    const videoSrc = episodeSources[episodeNum];
                     
-                    episodeBtns.forEach(b => b.style.background = '#252545');
-                    this.style.background = '#ff4d4d';
+                    // Show loading spinner
+                    loadingOverlay.style.display = 'flex';
+                    
+                    // Change video source
+                    video.src = videoSrc;
+                    
+                    // Reset the video and load new source
+                    video.load();
+                    
+                    // When new video is ready to play
+                    video.addEventListener('canplay', function() {
+                        loadingOverlay.style.display = 'none';
+                        video.play().catch(e => console.log('Autoplay prevented:', e));
+                    }, { once: true });
+                    
+                    // Handle potential errors
+                    video.addEventListener('error', function() {
+                        loadingOverlay.style.display = 'none';
+                        alert('Error loading video. Please try again later.');
+                    }, { once: true });
+                    
+                    // Update active button
+                    episodeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
                 });
             });
-            
-            if (episodeBtns.length > 0) {
-                episodeBtns[0].style.background = '#ff4d4d';
-            }
         });
     </script>
 </body>

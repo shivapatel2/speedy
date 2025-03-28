@@ -23,12 +23,16 @@
         
         /* Live Match Banner */
         .live-match {
-            background: #252545;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://i.ibb.co/xKM83X80/Screenshot-20250328-130013-1.jpg');
+            background-size: cover;
+            background-position: center;
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 40px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             position: relative;
+            border: 2px solid #ff4d4d;
         }
         
         .live-badge {
@@ -49,7 +53,7 @@
             justify-content: space-around;
             align-items: center;
             padding: 30px;
-            background: linear-gradient(135deg, #1a1a2e, #252545);
+            background: rgba(26, 26, 46, 0.7);
         }
         
         .team {
@@ -61,14 +65,20 @@
         
         .team-logo {
             width: 100px;
-            height: 100;
-             margin-bottom: 15px;
+            height: 100px;
+            margin-bottom: 15px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2);
         }
         
         .team-name {
             font-size: 1.5rem;
             font-weight: 600;
             text-align: center;
+            color: white;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         
         .vs {
@@ -77,11 +87,12 @@
             font-weight: bold;
             width: 10%;
             text-align: center;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         
         .match-details {
             padding: 25px;
-            background: #1a1a2e;
+            background: rgba(26, 26, 46, 0.8);
         }
         
         .match-info {
@@ -95,12 +106,14 @@
             font-size: 1.8rem;
             color: #f9cb28;
             margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         
         .match-status {
             color: #ff4d4d;
             font-size: 1.2rem;
             margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
         }
         
         .match-stats {
@@ -110,10 +123,11 @@
         }
         
         .stat-item {
-            background: #252545;
+            background: rgba(37, 37, 69, 0.8);
             padding: 15px;
             border-radius: 8px;
             min-width: 120px;
+            border: 1px solid #ff4d4d;
         }
         
         .stat-label {
@@ -161,14 +175,15 @@
         }
         
         .secondary-btn {
-            background: #252545;
+            background: rgba(37, 37, 69, 0.8);
             border: 1px solid #ff4d4d;
         }
         
         .secondary-btn:hover {
-            background: #1a1a2e;
+            background: rgba(26, 26, 46, 0.8);
         }
         
+        /* Rest of your existing styles... */
         /* Upcoming Matches */
         .upcoming-section {
             margin-top: 50px;
@@ -271,7 +286,7 @@
             font-size: 0.9rem;
             transition: all 0.3s ease;
             border: 1px solid #3a3a5a;
-            cursor: pointer;
+            cursor: button;
         }
         
         .preview-btn:hover {
@@ -416,6 +431,7 @@
                     <img src="https://i.ibb.co/WW6MVgfQ/rcb-royal-challengers-bangalore-lion-logo-n8z0bqiop2wa2skq-removebg-preview.png" alt="India" class="team-logo">
                     <div class="team-name">RCB</div>
                 </div>
+               
                 <div class="vs">VS</div>
                 <div class="team">
                     <img src="https://i.ibb.co/zhHgHsdy/csk.png" alt="Australia" class="team-logo">
